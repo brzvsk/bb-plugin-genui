@@ -40,7 +40,18 @@ The internals behind [the README](../README.md): how agents learn the language, 
    BB refuses a tool whose instructions pass 4,096 characters (the plugin
    then fails to reload) and truncates the other sections there;
    `instructions.test.ts` fails the build past that and compiles every
-   example. The four sections and the two tools cost 6,432 input tokens
+   example. The `replyUi` setting picks among three injections: *Prefer
+   visuals* is the text above; *When it helps* swaps in
+   `AGENT_INSTRUCTIONS_BALANCED` and `CODE_WORK_INSTRUCTIONS_BALANCED`, where
+   one block is allowed only where it replaces a worse table, pasted output,
+   flow or series and prose is otherwise the answer; *Only when asked*
+   injects a short stub, leaves out the code-work section and disables
+   `check_ui`/`ui_examples` (their instructions carry the large reference),
+   and selects the `genui` skill from `skills/genui/SKILL.md`, which repeats
+   the full reference so a session pays for it only after the user asks for
+   UI. `reply-ui.ts` resolves the mode; `instructions.test.ts` keeps the
+   default byte-identical and the checked-in skill current. The four sections
+   and the two tools cost 6,432 input tokens
    per session (measured against a session without them); about 42% is the
    component signatures, 42% the guidance. Formats a component can Load are
    listed once, in the code-work section, not again in its summary. BB's

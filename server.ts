@@ -48,7 +48,8 @@ import {
   type EnvironmentsResult,
 } from "./core/project";
 import { examplesReport } from "./examples";
-import { AGENT_INSTRUCTIONS, AGENT_INSTRUCTIONS_WEB_OFF, CODE_WORK_INSTRUCTIONS, UI_REFERENCE, UI_REFERENCE_MORE } from "./instructions";
+import { UI_REFERENCE, UI_REFERENCE_MORE } from "./instructions";
+import { createReplyUiSetting, replyUiConfiguration } from "./reply-ui";
 import { foundImageSchema, wikiPhotoSchema } from "./web/commons";
 import { locatedSchema } from "./web/geocode";
 import { createWebLookups, MAX_TILE_ZOOM } from "./web/lookups";
@@ -223,6 +224,7 @@ export const rpcContract = defineRpcContract({
 
 export default async function plugin(bb: BbPluginApi) {
   const web = createWebLookups(bb);
+  const replyUi = createReplyUiSetting(bb);
   bb.settings.define(MOTION_SETTINGS);
   /** Image searches and Wikipedia photos (Map places) for markdown renderings: the photo found, or null (none, or lookups off). */
   const findImage = {
@@ -281,8 +283,10 @@ export default async function plugin(bb: BbPluginApi) {
   // Threads configure last found to have a person reading their replies. BB
   // resolves configure before it asks instruction contributors, within the
   // same session resolution, so the code-work section below reaches exactly
-  // the sessions that get the other three. Bounded; oldest forgotten first.
-  const personThreads = new Set<string>();
+  // the sessions that get the other sections. The resolved string is kept, not
+  // the setting, so a settings write between the two calls cannot mix modes in
+  // one resolution. Bounded; oldest forgotten first.
+  const personThreads = new Map<string, string | null>();
   bb.agents.configure((context) => {
     // Only sessions whose replies a person reads in chat: not threads another
     // agent spawned (their reply goes back to that agent) and not threads a
@@ -294,12 +298,12 @@ export default async function plugin(bb: BbPluginApi) {
         (context.origin.pluginId === null || context.origin.pluginId === "side-chat"));
     personThreads.delete(context.thread.id);
     if (!forPerson) return { tools: [], skills: [] };
-    personThreads.add(context.thread.id);
-    if (personThreads.size > MAX_PERSON_THREADS) personThreads.delete(personThreads.values().next().value!);
-    const instructions = web.isOn() ? AGENT_INSTRUCTIONS : AGENT_INSTRUCTIONS_WEB_OFF;
-    return { tools: ["check_ui", "ui_examples"], skills: [], instructions };
+    const configuration = replyUiConfiguration(replyUi.current(), web.isOn());
+    personThreads.set(context.thread.id, configuration.codeWork);
+    if (personThreads.size > MAX_PERSON_THREADS) personThreads.delete(personThreads.keys().next().value!);
+    return { tools: configuration.tools, skills: configuration.skills, instructions: configuration.instructions };
   });
-  bb.agents.contributeInstructions(({ threadId }) => (personThreads.has(threadId) ? CODE_WORK_INSTRUCTIONS : null));
+  bb.agents.contributeInstructions(({ threadId }) => personThreads.get(threadId) ?? null);
 
   bb.rpc.register(rpcContract, {
     async get_ui({ id }) {

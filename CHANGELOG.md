@@ -4,6 +4,13 @@ What changed in each version of the Generative UI plugin for BB. Update an insta
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **UI in replies**, a select setting with three modes. *Prefer visuals* is the current behavior. *When it helps* allows one block only where it replaces something worse, such as a markdown table, pasted output, a flow or a series, and otherwise answers in prose. *Only when asked* answers in prose until you ask for a visual, chart, diagram, form or app; the agent then loads the plugin's `genui` skill, which carries the full language and component reference. Applies to sessions started after the change.
+- The `genui` skill (`skills/genui/SKILL.md`, declared in `package.json`) holds the full instructions and reference for the on-demand path.
+- `scripts/reply-ui-battery.mjs` runs the prompt battery for the three modes and records raw replies under `$BB_THREAD_STORAGE`.
+
 ## [0.3.1] - 2026-10-22
 
 ### Fixed

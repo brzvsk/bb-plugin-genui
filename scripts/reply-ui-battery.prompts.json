@@ -1,0 +1,205 @@
+{
+  "source": "/Users/brzvsk/.bb/thread-storage/thr_iwj39fvign/genui/battery.md",
+  "prompts": [
+    {
+      "id": "V1",
+      "class": "V",
+      "text": "Сравни Postgres, MySQL и SQLite по скорости записи, репликации, лицензии и удобству эксплуатации для маленького SaaS."
+    },
+    {
+      "id": "V2",
+      "class": "V",
+      "text": "Here are my monthly AWS costs: Jan 412, Feb 398, Mar 455, Apr 610, May 590, Jun 720. What's the trend?"
+    },
+    {
+      "id": "V3",
+      "class": "V",
+      "text": "Посчитай, сколько я переплачу по ипотеке 8 млн на 20 лет под 16% против 12%. Хочу поиграть с суммой и ставкой."
+    },
+    {
+      "id": "V4",
+      "class": "V",
+      "text": "Walk me through how an OAuth 2.0 authorization code flow with PKCE works between browser, app server and auth server."
+    },
+    {
+      "id": "V5",
+      "class": "V",
+      "text": "I need to pick between Stripe, Paddle and LemonSqueezy for selling a $9/mo app worldwide as a solo dev. Help me choose."
+    },
+    {
+      "id": "V6",
+      "class": "V",
+      "text": "Распиши план миграции монолита на Django в 3 сервиса: что делать по шагам, риски, оценки."
+    },
+    {
+      "id": "V7",
+      "class": "V",
+      "text": "Our test run output: 214 passed, 3 failed (auth.spec.ts: \"refresh token expired\" x2, billing.spec.ts: \"currency mismatch\"), 5 skipped, 41.2s. Summarize."
+    },
+    {
+      "id": "V8",
+      "class": "V",
+      "text": "Составь расписание тренировок на неделю: 3 силовые, 2 кардио, суббота отдых, учти, что во вторник и четверг я занят до 19:00."
+    },
+    {
+      "id": "V9",
+      "class": "V",
+      "text": "What were the major releases of React from 16 to 19 and what did each bring?"
+    },
+    {
+      "id": "V10",
+      "class": "V",
+      "text": "Show the disk usage split: node_modules 1.8 GB, .git 640 MB, dist 210 MB, assets 95 MB, src 12 MB. What should I clean?"
+    },
+    {
+      "id": "V11",
+      "class": "V",
+      "text": "Нарисуй жизненный цикл заказа в интернет-магазине: от корзины до возврата, со всеми статусами."
+    },
+    {
+      "id": "V12",
+      "class": "V",
+      "text": "I'm deciding the export feature: which formats (CSV, JSON, XLSX) and whether to export the current view or everything. Ask me what you need before planning."
+    },
+    {
+      "id": "V13",
+      "class": "V",
+      "text": "Compare p50/p95/p99 latency before and after our cache change: before 120/480/1300 ms, after 95/210/640 ms."
+    },
+    {
+      "id": "V14",
+      "class": "V",
+      "text": "Какие поля у объекта Stripe PaymentIntent самые важные и что они значат?"
+    },
+    {
+      "id": "V15",
+      "class": "V",
+      "text": "Plan a 4-day trip Lisbon → Porto with a day in Sintra; I want the route and where to stay."
+    },
+    {
+      "id": "V16",
+      "class": "V",
+      "text": "Give me 8 flashcards to learn the Big-O of common data structure operations."
+    },
+    {
+      "id": "P1",
+      "class": "P",
+      "text": "What is the difference between a process and a thread?"
+    },
+    {
+      "id": "P2",
+      "class": "P",
+      "text": "Как думаешь, стоит ли соло-разработчику писать свой фреймворк для внутренних инструментов?"
+    },
+    {
+      "id": "P3",
+      "class": "P",
+      "text": "Is it safe to commit a .env.example file?"
+    },
+    {
+      "id": "P4",
+      "class": "P",
+      "text": "Перефразируй мягче: «Ты опять сорвал дедлайн, так нельзя»."
+    },
+    {
+      "id": "P5",
+      "class": "P",
+      "text": "Why did the 2008 financial crisis spread from US mortgages to the rest of the world? Two paragraphs."
+    },
+    {
+      "id": "P6",
+      "class": "P",
+      "text": "Объясни простыми словами, что такое эвентуальная согласованность."
+    },
+    {
+      "id": "P7",
+      "class": "P",
+      "text": "Write a commit message for: moved RPC contract from contract.ts into server.ts so the frontend bundle doesn't import the server SDK."
+    },
+    {
+      "id": "P8",
+      "class": "P",
+      "text": "All 312 tests passed and the build is green. Anything else before I merge?"
+    },
+    {
+      "id": "P9",
+      "class": "P",
+      "text": "Какая столица Австралии?"
+    },
+    {
+      "id": "P10",
+      "class": "P",
+      "text": "My cofounder and I disagree about raising money vs bootstrapping. How should we think about it?"
+    },
+    {
+      "id": "P11",
+      "class": "P",
+      "text": "Explain what a monad is to a JavaScript developer, briefly."
+    },
+    {
+      "id": "P12",
+      "class": "P",
+      "text": "Почему в Go нет исключений, как ты думаешь, это хорошее решение?"
+    },
+    {
+      "id": "P13",
+      "class": "P",
+      "text": "Draft a short, friendly reply declining a meeting invite next Tuesday."
+    },
+    {
+      "id": "P14",
+      "class": "P",
+      "text": "What does `git rebase --onto` do?"
+    },
+    {
+      "id": "P15",
+      "class": "P",
+      "text": "Расскажи, чем отличается подход Basecamp Shape Up от Scrum, в паре абзацев."
+    },
+    {
+      "id": "P16",
+      "class": "P",
+      "text": "Should I use tabs or spaces? Just your opinion."
+    },
+    {
+      "id": "A1",
+      "class": "A",
+      "text": "Покажи графиком: продажи по кварталам 120, 135, 160, 158, 190."
+    },
+    {
+      "id": "A2",
+      "class": "A",
+      "text": "Draw a diagram of how DNS resolution works."
+    },
+    {
+      "id": "A3",
+      "class": "A",
+      "text": "Сделай мне интерактивный калькулятор чаевых с процентом и числом людей."
+    },
+    {
+      "id": "A4",
+      "class": "A",
+      "text": "Make a form where I can pick my stack: language, database, hosting."
+    },
+    {
+      "id": "A5",
+      "class": "A",
+      "text": "Визуализируй сравнение iPhone 17 и Pixel 10 по 5 параметрам."
+    },
+    {
+      "id": "A6",
+      "class": "A",
+      "text": "Build a small app that times a 25-minute pomodoro."
+    },
+    {
+      "id": "A7",
+      "class": "A",
+      "text": "Покажи таймлайн истории Unix в виде UI."
+    },
+    {
+      "id": "A8",
+      "class": "A",
+      "text": "Show me a chart of world population every 10 years since 1950."
+    }
+  ]
+}
