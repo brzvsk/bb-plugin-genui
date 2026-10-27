@@ -170,17 +170,21 @@ export const AGENT_INSTRUCTIONS_WEB_OFF = AGENT_INSTRUCTIONS.replace(MAP_EXAMPLE
  * AGENT_INSTRUCTIONS unchanged.
  */
 export const AGENT_INSTRUCTIONS_BALANCED = `# Inline UI
-This chat draws \`\`\`ui and \`\`\`app blocks as live UI. Write one only where it replaces something that would read worse as text: a markdown table, pasted code, log or command output, an ASCII or mermaid diagram, a hand-formatted series of numbers, a schedule, or a question with options. Never write a markdown table: a comparison is one Table block. It is never added to a reply that reads fine as prose. A concept explained, an opinion, a narrative, a short fact, wording help or a status stays prose. In doubt, prose. A recommendation, a calculation or a history still gets its block: the prose gives the recommendation, the block shows the options or numbers. A plan, a set of steps, a timeline or a field list does not become headings and bullets: it is a Plan, Steps, Timeline, KeyValue or Table block. State inputs are read as \`$name\` in expressions (\`$bill\`, not \`bill\`). Diagram and Scene take one quoted string: use \`\\n\` between lines, never literal line breaks. Use only the named arguments the signatures list. Use blocks only in replies to the user, never in progress notes, files, commits, PR text or tool input, and at most one per reply.
+This chat draws \`\`\`ui and \`\`\`app blocks as live UI. Write one only where it replaces something that would read worse as text: a markdown table, pasted code, log or command output, an ASCII or mermaid diagram, a hand-formatted series of numbers, a schedule, or a question with options. Never write a markdown table: a comparison is one Table block. It is never added to a reply that reads fine as prose. A concept explained, an opinion, a narrative, a short fact, wording help or a status stays prose. In doubt, prose. A recommendation, a calculation or a history still gets its block: the prose gives the recommendation, the block shows the options or numbers. A plan, a set of steps, a timeline or a field list does not become headings and bullets: it is a Plan, Steps, Timeline, KeyValue or Table block. State inputs are read as \`$name\` in expressions (\`$seats\`, not \`seats\`). Diagram and Scene take one quoted string: use \`\\n\` between lines, never literal line breaks. Use only the named arguments the signatures list. Use blocks only in replies to the user, never in progress notes, files, commits, PR text or tool input, and at most one per reply.
 When the user asks for a calculation (how much, what if), make their numbers sliders and a list of amounts an EditableTable, and compute the result live. To let the user pick, give buttons or a Choice; when the user asks you to gather what you need before a plan or a build, stop and write one Form block. A request for advice, an opinion or an explanation is answered in prose, not a Form. Never a question tool, a numbered list or a list of questions in prose.
 Match the content: a comparison of options the user is choosing between → Table or Decision, never a markdown table; numbers over time or by category → Chart, shares of a whole → SegmentedBar, a funnel → Chart("funnel"); a system flow, request path or lifecycle → Diagram, its steps as Steps({title, detail}) instead of a numbered list; a sequence of events or releases → Timeline; a plan with phases, risks or estimates → Plan(steps) or Roadmap, dated items → Calendar; effort → Estimate; fields of an object and what they mean → KeyValue or Table; changed files, commits or the pull request → Changes(), Commits(sha), PullRequest(); failures, findings or a review → Findings; test output with failures → Tests(Load(...)); a trip or route → Map of the stops; products or places → Entity cards in a Grid; a worked solution → Walkthrough; items to learn → Flashcards; activity per day → CalendarHeatmap. Code the user asks to see → Snippet from the file, never retyped; an image → Image.
 Save what a tool printed to $BB_THREAD_STORAGE and Load it into its component (Inline UI for code work, above); never retype values a file holds. Open the reply with one plain sentence that gives the answer (previews show only text); the block carries the rest, so never restate it. Before you send: a markdown table, a series, a flow, code or output the user asked to see, dates, places, a choice, or questions you need answered are blocks instead. Wrap each UI in one Card. Examples:
 \`\`\`ui
-Card("AWS cost", [Chart("line", ["Jan", "Feb", "Mar", "Apr", "May", "Jun"], [412, 398, 455, 610, 590, 720], unit: "$")])
+Card("Weekly signups", [Chart("bar", ["W1", "W2", "W3", "W4"], [180, 240, 210, 305])])
 \`\`\`
 \`\`\`ui
-$bill = 2000
-$tip = 15
-Card("Tip", [Slider($bill, 0, 10000, 100, label: "Bill"), Slider($tip, 0, 30, 1, label: "Tip, %"), Metric("Total", fmt($bill * (1 + $tip / 100), 2))])
+$seats = 10
+$plan = "Pro"
+price = $plan == "Pro" ? 29 : 12
+Card("Estimate", [
+  Row([Choice($plan, ["Basic", "Pro"]), Slider($seats, 1, 50, label: "Seats")]),
+  Metric("Total a month", "$" + fmt(price * $seats))
+])
 \`\`\`
 ${MAP_EXAMPLE}`;
 
@@ -208,4 +212,4 @@ ${componentLines(["Evidence"])}`;
  * reference, so a session pays for them only after the user asks for UI.
  */
 export const ON_REQUEST_INSTRUCTIONS = `# Inline UI
-This chat can render live UI: \`\`\`ui blocks for charts, diagrams, maps, plans and forms, and \`\`\`app blocks for small self-contained apps. Write one only when the message asks for a chart, graph, diagram, map, timeline, form, calculator, app or UI, or asks you to visualize a comparison. A request to show, compare, plan, explain, calculate, draw or summarize is not such an ask: answer in prose. When it is, load the \`genui\` skill first; it has the language and every component.`;
+This chat can render live UI: \`\`\`ui blocks for charts, diagrams, maps, plans and forms, and \`\`\`app blocks for small self-contained apps. Write one only when the message asks for a chart, graph, diagram, map, timeline, form, calculator, app or UI, or asks you to draw or visualize something. A request to show, compare, plan, explain, calculate or summarize is not such an ask: answer in prose. When it is, load the \`genui\` skill first; it has the language and every component.`;
