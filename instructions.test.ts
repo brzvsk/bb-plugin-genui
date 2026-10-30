@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { ACTIONS, COMPONENTS } from "./core/catalog";
 import { collectLoads, compile, dataKey, evaluate, formatDiagnostics, initialState, type LoadedData } from "./core";
@@ -9,13 +8,10 @@ import {
   AGENT_INSTRUCTIONS_WEB_OFF,
   CODE_WORK_INSTRUCTIONS,
   CODE_WORK_INSTRUCTIONS_BALANCED,
-  ON_REQUEST_INSTRUCTIONS,
   UI_REFERENCE,
   UI_REFERENCE_MORE,
   WEB_LOOKUPS_OFF,
 } from "./instructions";
-
-const skill = readFileSync(new URL("./skills/genui/SKILL.md", import.meta.url), "utf8");
 
 describe("agent instructions", () => {
   // BB refuses a tool whose instructions pass 4096 characters (the plugin then
@@ -29,9 +25,6 @@ describe("agent instructions", () => {
     expect(CODE_WORK_INSTRUCTIONS_BALANCED.length).toBeLessThanOrEqual(4096);
     expect(UI_REFERENCE.length).toBeLessThanOrEqual(4096);
     expect(UI_REFERENCE_MORE.length).toBeLessThanOrEqual(4096);
-    // The on-request stub is the whole plugin text a session pays for before
-    // the skill is loaded; ~4 characters per token puts 300 tokens near 1200.
-    expect(ON_REQUEST_INSTRUCTIONS.length).toBeLessThanOrEqual(1200);
   });
 
   // A replace that silently matches nothing would keep teaching Map while lookups are off.
@@ -49,15 +42,6 @@ describe("agent instructions", () => {
       for (const name of [...Object.keys(COMPONENTS), ...Object.keys(ACTIONS)]) {
         expect(reference, name).toContain(`${name}(`);
       }
-    }
-  });
-
-  // The skill is the only reference an on-request session gets. It is checked
-  // in, so this catches a stale copy after an instructions.ts change.
-  it("ship the genui skill with the current full instructions and reference", () => {
-    expect(skill.startsWith("---\nname: genui\n")).toBe(true);
-    for (const section of [UI_REFERENCE, UI_REFERENCE_MORE, CODE_WORK_INSTRUCTIONS, AGENT_INSTRUCTIONS]) {
-      expect(skill).toContain(section);
     }
   });
 

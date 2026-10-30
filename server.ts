@@ -301,7 +301,7 @@ export default async function plugin(bb: BbPluginApi) {
     const configuration = replyUiConfiguration(replyUi.current(), web.isOn());
     personThreads.set(context.thread.id, configuration.codeWork);
     if (personThreads.size > MAX_PERSON_THREADS) personThreads.delete(personThreads.keys().next().value!);
-    return { tools: configuration.tools, skills: configuration.skills, instructions: configuration.instructions };
+    return { tools: configuration.tools, skills: [], instructions: configuration.instructions };
   });
   bb.agents.contributeInstructions(({ threadId }) => personThreads.get(threadId) ?? null);
 

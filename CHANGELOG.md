@@ -7,9 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 ## [Unreleased]
 
 ### Added
-- **UI in replies**, a select setting with three modes. *Prefer visuals* is the current behavior. *When it helps* allows one block only where it replaces something worse, such as a markdown table, pasted output, a flow or a series, and otherwise answers in prose. *Only when asked* answers in prose until you ask for a visual, chart, diagram, form or app; the agent then loads the plugin's `genui` skill, which carries the full language and component reference. Applies to sessions started after the change.
-- The `genui` skill (`skills/genui/SKILL.md`, declared in `package.json`) holds the full instructions and reference for the on-demand path.
-- `scripts/reply-ui-battery.mjs` runs the prompt battery for the three modes and records raw replies under `$BB_THREAD_STORAGE`.
+- **UI in replies**, a select setting with two modes. *Prefer visuals* is the current behavior. *When it helps* allows one block only where it replaces something worse, such as a markdown table, pasted output, a flow or a series, and otherwise answers in prose. Applies to sessions started after the change.
+- `scripts/reply-ui-battery.mjs` runs the prompt battery for the two modes and records raw replies under `$BB_THREAD_STORAGE`; [docs/reply-ui-modes.md](docs/reply-ui-modes.md) reports its results.
 
 ## [0.3.1] - 2026-10-22
 

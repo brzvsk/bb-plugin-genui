@@ -10,7 +10,7 @@
 //
 // Prefer visuals is the baseline: one run per model unless --runs is passed.
 import { spawn } from "node:child_process";
-import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,7 +19,7 @@ import { createServer } from "vite";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, "..");
 const PROMPTS_PATH = join(HERE, "reply-ui-battery.prompts.json");
-const MODES = ["Prefer visuals", "When it helps", "Only when asked"];
+const MODES = ["Prefer visuals", "When it helps"];
 const MODELS = ["claude-haiku-5-5", "claude-sonnet-5-5"];
 const MAX_ATTEMPTS = 3;
 
@@ -64,7 +64,6 @@ await vite.close();
 /** The text BB adds for one mode, in BB's order: tool sections, code work, configure. */
 function systemPrompt(mode, webOn) {
   const configuration = replyUi.replyUiConfiguration(mode, webOn);
-  if (mode === "Only when asked") return configuration.instructions;
   return `${instructions.UI_REFERENCE}\n\n${instructions.UI_REFERENCE_MORE}\n\n${configuration.codeWork}\n\n${configuration.instructions}`;
 }
 
@@ -114,10 +113,9 @@ function runClaude(mode, model, prompt, workdir) {
   const webOn = true;
   const system = systemPrompt(mode, webOn);
   const common = ["-p", prompt, "--model", model, "--system-prompt", system, "--no-session-persistence", "--output-format", "json", "--setting-sources", "project"];
-  const tools = mode === "Only when asked" ? ["--tools", "Skill", "--allowedTools", "Skill", "--permission-mode", "dontAsk"] : ["--tools", ""];
   return new Promise((done) => {
     const started = Date.now();
-    const child = spawn("claude", [...common, ...tools], { cwd: workdir, env: process.env, stdio: ["ignore", "pipe", "pipe"] });
+    const child = spawn("claude", [...common, "--tools", ""], { cwd: workdir, env: process.env, stdio: ["ignore", "pipe", "pipe"] });
     let stdout = "";
     let stderr = "";
     let timedOut = false;
@@ -217,7 +215,7 @@ if (args.dryRun) {
   for (const mode of args.modes) {
     const system = systemPrompt(mode, true);
     const configuration = replyUi.replyUiConfiguration(mode, true);
-    console.log(`${mode}: ${system.length} chars (${Math.round(system.length / 4)} tokens ~), tools=${JSON.stringify(configuration.tools)}, skills=${JSON.stringify(configuration.skills)}, codeWork=${configuration.codeWork ? configuration.codeWork.length : "none"}`);
+    console.log(`${mode}: ${system.length} chars (${Math.round(system.length / 4)} tokens ~), tools=${JSON.stringify(configuration.tools)}, codeWork=${configuration.codeWork ? configuration.codeWork.length : "none"}`);
   }
   console.log(`prompts=${prompts.length} models=${args.models.join(",")} calls=~${prompts.length * args.models.length * (args.runs ?? 2) * args.modes.length}`);
   process.exit(0);
@@ -229,11 +227,6 @@ for (const mode of args.modes) {
   for (const model of args.models) {
     const workdir = join(workRoot, `${mode.replaceAll(" ", "-")}-${model}`);
     await mkdir(workdir, { recursive: true });
-    if (mode === "Only when asked") {
-      const skillDir = join(workdir, ".claude", "skills", "genui");
-      await mkdir(dirname(join(skillDir, "SKILL.md")), { recursive: true });
-      await cp(join(ROOT, "skills", "genui", "SKILL.md"), join(skillDir, "SKILL.md"));
-    }
   }
 }
 

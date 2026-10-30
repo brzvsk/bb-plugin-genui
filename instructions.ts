@@ -203,13 +203,3 @@ Replies here are read in BB, which draws these components, but after a task pros
 - output the user explicitly asked to see → Tests(Load("$BB_THREAD_STORAGE/tests.json")), Coverage(Load(...)), Dependencies(Load(...)), Pipeline(Load(...)), Benchmark([...]) or Json(Load(...))
 Never paste or retype output: save it to $BB_THREAD_STORAGE and Load it. A plan or a choice the user asked for → Plan(steps) or Decision(options, criteria).
 ${componentLines(["Evidence"])}`;
-
-/**
- * "Only when asked": sessions get no Inline UI or code-work section and no
- * check_ui/ui_examples tools, whose instructions carry the large reference.
- * The `genui` skill (skills/genui/SKILL.md, declared in package.json bb.skills
- * and selected in configure) holds the full instructions and language
- * reference, so a session pays for them only after the user asks for UI.
- */
-export const ON_REQUEST_INSTRUCTIONS = `# Inline UI
-This chat can render live UI: \`\`\`ui blocks for charts, diagrams, maps, plans and forms, and \`\`\`app blocks for small self-contained apps. Write one only when the message asks for a chart, graph, diagram, map, timeline, form, calculator, app or UI, or asks you to draw or visualize something. A request to show, compare, plan, explain, calculate or summarize is not such an ask: answer in prose. When it is, load the \`genui\` skill first; it has the language and every component.`;
